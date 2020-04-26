@@ -1,8 +1,8 @@
 {
   "name": "stepperMotorControlApp",
   "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "author": "Felipe Rodrigues",
+  "homepage": "https://www.linkedin.com/in/felipe-nascimento-cerqueira-rodrigues-2b80a4a5/",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
