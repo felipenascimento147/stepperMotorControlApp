@@ -7,15 +7,35 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">{{ folder }}</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong class="capitalize">{{ folder }}</strong>
-    <p>Explore <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+<ion-content [fullscreen]="true" *ngIf="folder == 'Home'">
+  <div>
+    <form [formGroup]="motorStepForm">
+      <ion-item>
+        <ion-label>Posição do motor X:</ion-label>
+        <ion-input type="number" clear-on-edit formControlName="stepMotorX" (ionFocus)="clearInput('stepMotorX')">
+        </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Velocidade do motor X:</ion-label>
+        <ion-input type="number" formControlName="speedMotorX" (ionFocus)="clearInput('speedMotorX')"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Posição do motor Y:</ion-label>
+        <ion-input type="number" formControlName="stepMotorY" (ionFocus)="clearInput('stepMotorY')"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Velocidade do motor Y:</ion-label>
+        <ion-input type="number" formControlName="speedMotorY" (ionFocus)="clearInput('speedMotorY')"></ion-input>
+      </ion-item>
+      <div class="redirectButtons">
+        <button (click)="confirmMoviment()"> Confirmar </button>
+      </div>
+    </form>
   </div>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-title>Desenvolvido por Felipe Rodrigues</ion-title>
+  </ion-toolbar>
+</ion-footer>
