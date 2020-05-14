@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertService } from '../services/alert.service';
 import { HttpService } from '../services/http.service';
+import { LoadingService } from '../services/loading.service';
 
 @Component({
   selector: 'app-folder',
@@ -13,12 +14,14 @@ export class FolderPage implements OnInit {
   public folder: string;
 
   private motorStepForm: FormGroup;
+  formOk: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private alertService: AlertService,
-    private httpService: HttpService
+    private httpService: HttpService,
+    private loadingService: LoadingService
   ) { }
 
   ngOnInit() {
@@ -28,10 +31,10 @@ export class FolderPage implements OnInit {
 
   createForm() {
     this.motorStepForm = this.formBuilder.group({
-      stepMotorX: [0, Validators.required],
-      speedMotorX: [0, Validators.required],
-      stepMotorY: [0, Validators.required],
-      speedMotorY: [0, Validators.required]
+      stepMotorX: [null, Validators.required],
+      speedMotorX: [null, Validators.required],
+      stepMotorY: [null, Validators.required],
+      speedMotorY: [null, Validators.required]
     });
   }
 
@@ -40,14 +43,47 @@ export class FolderPage implements OnInit {
   }
 
   async confirmMoviment() {
+    await this.verifyInputs();
+
+    if (this.formOk) {
+      console.log("confirm", this.motorStepForm.value);
+
+      await this.loadingService.presentLoading();
+
+      this.httpService.confirmMoviment(this.motorStepForm.value).subscribe(response => {
+        console.log(response);
+        this.loadingService.closeLoading();
+      }, error => {
+        console.log(error);
+        this.loadingService.closeLoading();
+      })
+    }
+  }
+
+  async verifyInputs() {
+    this.formOk = false;
+
     if (this.motorStepForm.invalid) {
       return await this.alertService.okAlert("Erro", "Preencha todos os campos do formulário.");
     }
-    console.log("confirm", this.motorStepForm.value);
-    this.httpService.confirmMoviment().subscribe(response => {
-      console.log("deu bom", response);
-    }, error => {
-      console.log(error);
-    })
+    this.motorStepForm.value.stepMotorX = Number(this.motorStepForm.value.stepMotorX);
+    this.motorStepForm.value.stepMotorY = Number(this.motorStepForm.value.stepMotorY);
+
+    if (this.motorStepForm.value.stepMotorX == 0 && this.motorStepForm.value.speedMotorX != 0) {
+      return await this.alertService.okAlert("Erro", "A posição do motor X deve ser diferente de zero.");
+    }
+
+    if (this.motorStepForm.value.stepMotorX != 0 && this.motorStepForm.value.speedMotorX == 0) {
+      return await this.alertService.okAlert("Erro", "A velocidade do motor X deve ser maior que zero.");
+    }
+
+    if (this.motorStepForm.value.stepMotorY == 0 && this.motorStepForm.value.speedMotorY != 0) {
+      return await this.alertService.okAlert("Erro", "A posição do motor Y deve ser diferente de zero.");
+    }
+
+    if (this.motorStepForm.value.stepMotorY != 0 && this.motorStepForm.value.speedMotorY == 0) {
+      return await this.alertService.okAlert("Erro", "A velocidade do motor Y deve ser maior que zero.");
+    }
+    this.formOk = true;
   }
 }

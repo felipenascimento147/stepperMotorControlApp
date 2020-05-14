@@ -34,7 +34,7 @@
         font-size: 2.5vh;
         color: white;
         border-radius: 1vw;
-        margin-bottom: 2vh;
+        margin-top: 4vh;
     }
 
     .buttonBack {
@@ -49,4 +49,8 @@ ion-footer {
             text-align: center;
         }
     }
+}
+
+.formLabelStyle {
+    max-width: max-content !important;
 }

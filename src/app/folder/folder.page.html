@@ -11,20 +11,20 @@
   <div>
     <form [formGroup]="motorStepForm">
       <ion-item>
-        <ion-label>Posição do motor X:</ion-label>
+        <ion-label class="formLabelStyle">Posição do motor X [mm]:</ion-label>
         <ion-input inputmode="numeric" clear-on-edit formControlName="stepMotorX" (ionFocus)="clearInput('stepMotorX')">
         </ion-input>
       </ion-item>
       <ion-item>
-        <ion-label>Velocidade do motor X:</ion-label>
+        <ion-label class="formLabelStyle">Velocidade do motor X [mm/s]:</ion-label>
         <ion-input type="number" formControlName="speedMotorX" (ionFocus)="clearInput('speedMotorX')"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label>Posição do motor Y:</ion-label>
+        <ion-label class="formLabelStyle">Posição do motor Y [mm]:</ion-label>
         <ion-input inputmode="numeric" formControlName="stepMotorY" (ionFocus)="clearInput('stepMotorY')"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label>Velocidade do motor Y:</ion-label>
+        <ion-label class="formLabelStyle">Velocidade do motor Y [mm/s]:</ion-label>
         <ion-input type="number" formControlName="speedMotorY" (ionFocus)="clearInput('speedMotorY')"></ion-input>
       </ion-item>
       <div class="redirectButtons">

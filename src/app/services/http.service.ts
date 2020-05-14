@@ -12,7 +12,7 @@ export class HttpService {
     private httpClient: HttpClient
   ) { }
 
-  confirmMoviment() {
-    return this.httpClient.get(`${this.api}/?step%2F=1000&speed%2F=100`);
+  confirmMoviment(motorStepForm) {
+    return this.httpClient.get(`${this.api}/?step%2F=${motorStepForm.stepMotorX}&speed%2F=${motorStepForm.speedMotorX}`);
   }
 }
