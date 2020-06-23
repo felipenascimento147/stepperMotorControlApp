@@ -17,6 +17,16 @@ export class AppComponent implements OnInit {
       url: '/folder/Home',
       icon: 'home'
     },
+    {
+      title: 'Contato',
+      url: '/folder/Contato',
+      icon: 'logo-whatsapp'
+    },
+    {
+      title: 'Sobre',
+      url: '/folder/Sobre',
+      icon: 'bulb'
+    },
   ];
 
   constructor(

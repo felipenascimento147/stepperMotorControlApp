@@ -34,6 +34,32 @@
   </div>
 </ion-content>
 
+<ion-content [fullscreen]="true" *ngIf="folder == 'Contato'">
+  <div>
+    <ion-item>
+      <ion-label class="formLabelStyle">Nome: Felipe Nascimento Cerqueira Rodrigues</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label class="formLabelStyle">Email: felipenascimento147@hotmail.com</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label class="formLabelStyle">WhatsApp:
+        <a target="blank" href="https://api.whatsapp.com/send?phone=5534999949720">(34)99994-9720</a>
+      </ion-label>
+    </ion-item>
+  </div>
+</ion-content>
+
+<ion-content [fullscreen]="true" *ngIf="folder == 'Sobre'">
+  <div>
+    <ion-item>
+      <p class="formLabelStyle">Aplicativo desenvolvido para realizar o controle dos motores de passo do sistema de
+        plasma atmosférico do Laboratório de Filmes Finos e Processo a Plasma da UFTM.
+      </p>
+    </ion-item>
+  </div>
+</ion-content>
+
 <ion-footer>
   <ion-toolbar>
     <ion-title>Desenvolvido por Felipe Rodrigues</ion-title>
