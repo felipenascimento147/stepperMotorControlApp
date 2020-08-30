@@ -4,6 +4,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertService } from '../services/alert.service';
 import { HttpService } from '../services/http.service';
 import { LoadingService } from '../services/loading.service';
+import { BluetoothSerial } from '@ionic-native/bluetooth-serial/ngx';
+import { async } from '@angular/core/testing';
 
 @Component({
   selector: 'app-folder',
@@ -19,6 +21,7 @@ export class FolderPage implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
+    private bluetoothSerial: BluetoothSerial,
     private alertService: AlertService,
     private httpService: HttpService,
     private loadingService: LoadingService
@@ -36,6 +39,34 @@ export class FolderPage implements OnInit {
       stepMotorY: [null, Validators.required],
       speedMotorY: [null, Validators.required]
     });
+    this.checkBluetoothEnabled();
+  }
+
+  checkBluetoothEnabled(){
+    this.bluetoothSerial.isEnabled().then(reponse=>{
+      this.listDevices();
+    }, error =>{
+      this.alertService.okAlert("Erro", "Verifique se o bluetooth está ligado.")
+    })
+  }
+
+  listDevices(){
+    this.bluetoothSerial.list().then(response =>{
+      this.connectDevice("00:21:13:02:2E:B5");
+    }, error => {
+      this.alertService.okAlert("Erro", "Houve algum erro para carregar a lista de dispositivos bluetooth.");
+    })
+  }
+
+  async connectDevice(address){
+    await this.loadingService.presentLoading();
+    this.bluetoothSerial.connect(address).subscribe(respose=>{
+      this.loadingService.closeLoading();
+      this.alertService.okAlert("Sucesso", "Dispositivo conectado com sucesso.");
+    }, error=>{
+      this.loadingService.closeLoading();
+      this.alertService.okAlert("Erro", "Houve algum erro ao conectar com o dispositivo bluetooth.");
+    })
   }
 
   clearInput(input) {
@@ -86,4 +117,13 @@ export class FolderPage implements OnInit {
     }
     this.formOk = true;
   }
+
+  sendData(){
+    this.bluetoothSerial.write('a').then(respose=>{
+      this.alertService.okAlert("Certo", respose);
+    },error=>{
+      this.alertService.okAlert("Erro", "Houve algum erro ao enviar os dados para o Arduino.");
+    })
+  }
+
 }
