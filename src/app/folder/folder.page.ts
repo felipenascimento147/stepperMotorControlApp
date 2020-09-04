@@ -5,7 +5,6 @@ import { AlertService } from '../services/alert.service';
 import { HttpService } from '../services/http.service';
 import { LoadingService } from '../services/loading.service';
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial/ngx';
-import { async } from '@angular/core/testing';
 
 @Component({
   selector: 'app-folder',
@@ -42,30 +41,13 @@ export class FolderPage implements OnInit {
     this.checkBluetoothEnabled();
   }
 
-  checkBluetoothEnabled(){
-    this.bluetoothSerial.isEnabled().then(reponse=>{
-      this.listDevices();
-    }, error =>{
-      this.alertService.okAlert("Erro", "Verifique se o bluetooth está ligado.")
-    })
-  }
-
-  listDevices(){
-    this.bluetoothSerial.list().then(response =>{
-      this.connectDevice("00:21:13:02:2E:B5");
-    }, error => {
-      this.alertService.okAlert("Erro", "Houve algum erro para carregar a lista de dispositivos bluetooth.");
-    })
-  }
-
-  async connectDevice(address){
+  async checkBluetoothEnabled() {
     await this.loadingService.presentLoading();
-    this.bluetoothSerial.connect(address).subscribe(respose=>{
+    this.bluetoothSerial.isEnabled().then(response => {
       this.loadingService.closeLoading();
-      this.alertService.okAlert("Sucesso", "Dispositivo conectado com sucesso.");
-    }, error=>{
+    }, error => {
       this.loadingService.closeLoading();
-      this.alertService.okAlert("Erro", "Houve algum erro ao conectar com o dispositivo bluetooth.");
+      this.alertService.okAlert("Erro", "Verifique se o bluetooth está ligado.")
     })
   }
 
@@ -77,17 +59,15 @@ export class FolderPage implements OnInit {
     await this.verifyInputs();
 
     if (this.formOk) {
-      console.log("confirm", this.motorStepForm.value);
-
-      await this.loadingService.presentLoading();
-
-      this.httpService.confirmMoviment(this.motorStepForm.value).subscribe(response => {
-        console.log(response);
-        this.loadingService.closeLoading();
-      }, error => {
-        console.log(error);
-        this.loadingService.closeLoading();
-      })
+      this.connectDevice("00:21:13:02:2E:B5");
+      //await this.loadingService.presentLoading();
+      // this.httpService.confirmMoviment(this.motorStepForm.value).subscribe(response => {
+      //   console.log(response);
+      //   this.loadingService.closeLoading();
+      // }, error => {
+      //   console.log(error);
+      //   this.loadingService.closeLoading();
+      // })
     }
   }
 
@@ -118,10 +98,23 @@ export class FolderPage implements OnInit {
     this.formOk = true;
   }
 
-  sendData(){
-    this.bluetoothSerial.write('a').then(respose=>{
-      this.alertService.okAlert("Certo", respose);
-    },error=>{
+  async connectDevice(address) {
+    await this.loadingService.presentLoading();
+    this.bluetoothSerial.connect(address).subscribe(respose => {
+      this.sendData();
+    }, error => {
+      this.loadingService.closeLoading();
+      this.alertService.okAlert("Erro", "Houve algum erro ao conectar com o dispositivo bluetooth.");
+    })
+  }
+
+  sendData() {
+    this.bluetoothSerial.write('a').then(respose => {
+      this.loadingService.closeLoading();
+      this.bluetoothSerial.disconnect();
+    }, error => {
+      this.loadingService.closeLoading();
+      this.bluetoothSerial.disconnect();
       this.alertService.okAlert("Erro", "Houve algum erro ao enviar os dados para o Arduino.");
     })
   }
