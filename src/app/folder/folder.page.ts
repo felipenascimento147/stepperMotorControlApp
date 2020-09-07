@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertService } from '../services/alert.service';
-import { HttpService } from '../services/http.service';
 import { LoadingService } from '../services/loading.service';
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial/ngx';
 
@@ -22,7 +21,6 @@ export class FolderPage implements OnInit {
     private formBuilder: FormBuilder,
     private bluetoothSerial: BluetoothSerial,
     private alertService: AlertService,
-    private httpService: HttpService,
     private loadingService: LoadingService
   ) { }
 
@@ -60,14 +58,6 @@ export class FolderPage implements OnInit {
 
     if (this.formOk) {
       this.connectDevice("00:21:13:02:2E:B5");
-      //await this.loadingService.presentLoading();
-      // this.httpService.confirmMoviment(this.motorStepForm.value).subscribe(response => {
-      //   console.log(response);
-      //   this.loadingService.closeLoading();
-      // }, error => {
-      //   console.log(error);
-      //   this.loadingService.closeLoading();
-      // })
     }
   }
 
@@ -109,7 +99,7 @@ export class FolderPage implements OnInit {
   }
 
   sendData() {
-    this.bluetoothSerial.write('a').then(respose => {
+    this.bluetoothSerial.write(`stepX=${this.motorStepForm.value.stepMotorX}&speedX=${this.motorStepForm.value.speedMotorX}&stepY=${this.motorStepForm.value.stepMotorY}&speedY=${this.motorStepForm.value.speedMotorY}/`).then(respose => {
       this.loadingService.closeLoading();
       this.bluetoothSerial.disconnect();
     }, error => {
@@ -118,5 +108,4 @@ export class FolderPage implements OnInit {
       this.alertService.okAlert("Erro", "Houve algum erro ao enviar os dados para o Arduino.");
     })
   }
-
 }
