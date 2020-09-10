@@ -85,6 +85,22 @@ export class FolderPage implements OnInit {
     if (this.motorStepForm.value.stepMotorY != 0 && this.motorStepForm.value.speedMotorY == 0) {
       return await this.alertService.okAlert("Erro", "A velocidade do motor Y deve ser maior que zero.");
     }
+
+    if (this.motorStepForm.value.stepMotorX < -30 || this.motorStepForm.value.stepMotorX > 30) {
+      return await this.alertService.okAlert("Validação", "O posicinamento do motor X deve estar entre -30 mm e 30 mm.");
+    }
+
+    if (this.motorStepForm.value.speedMotorX != 0 && (this.motorStepForm.value.speedMotorX < 0.3 || this.motorStepForm.value.speedMotorX > 3)) {
+      return await this.alertService.okAlert("Validação", "A velocidade do motor X deve estar entre 0.3 mm/s e 3 mm/s.");
+    }
+
+    if (this.motorStepForm.value.stepMotorY < -300 || this.motorStepForm.value.stepMotorY > 300) {
+      return await this.alertService.okAlert("Validação", "O posicinamento do motor Y deve estar entre -300 mm e 300 mm.");
+    }
+
+    if (this.motorStepForm.value.speedMotorY != 0 && (this.motorStepForm.value.speedMotorY < 0.5 || this.motorStepForm.value.speedMotorY > 9)) {
+      return await this.alertService.okAlert("Validação", "A velocidade do motor Y deve estar entre 0.5 mm/s e 9 mm/s.");
+    }
     this.formOk = true;
   }
 
