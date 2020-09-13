@@ -34,7 +34,9 @@ export class FolderPage implements OnInit {
       stepMotorX: [null, Validators.required],
       speedMotorX: [null, Validators.required],
       stepMotorY: [null, Validators.required],
-      speedMotorY: [null, Validators.required]
+      speedMotorY: [null, Validators.required],
+      deltaSelect: ["deltaX", Validators.required],
+      delta: [null, Validators.required]
     });
     this.checkBluetoothEnabled();
   }
@@ -101,6 +103,15 @@ export class FolderPage implements OnInit {
     if (this.motorStepForm.value.speedMotorY != 0 && (this.motorStepForm.value.speedMotorY < 0.5 || this.motorStepForm.value.speedMotorY > 9)) {
       return await this.alertService.okAlert("Validação", "A velocidade do motor Y deve estar entre 0.5 mm/s e 9 mm/s.");
     }
+
+    if (this.motorStepForm.value.deltaSelect == "deltaX" && (this.motorStepForm.value.delta == 0 || this.motorStepForm.value.delta > Math.abs(this.motorStepForm.value.stepMotorX) || Math.abs(this.motorStepForm.value.stepMotorX) % this.motorStepForm.value.delta > 0)) {
+      return await this.alertService.okAlert("Validação", "ΔX deve ser maior que zero, menor que a posição X e divisível pela posição X.");
+    }
+
+    if (this.motorStepForm.value.deltaSelect == "deltaY" && (this.motorStepForm.value.delta == 0 || this.motorStepForm.value.delta > Math.abs(this.motorStepForm.value.stepMotorY) || Math.abs(this.motorStepForm.value.stepMotorY) % this.motorStepForm.value.delta > 0)) {
+      return await this.alertService.okAlert("Validação", "ΔY deve ser maior que zero, menor que a posição Y e divisível pela posição Y.");
+    }
+
     this.formOk = true;
   }
 
@@ -115,7 +126,7 @@ export class FolderPage implements OnInit {
   }
 
   sendData() {
-    this.bluetoothSerial.write(`stepX=${this.motorStepForm.value.stepMotorX}&speedX=${this.motorStepForm.value.speedMotorX}&stepY=${this.motorStepForm.value.stepMotorY}&speedY=${this.motorStepForm.value.speedMotorY}/`).then(respose => {
+    this.bluetoothSerial.write(`stepX=${this.motorStepForm.value.stepMotorX}&speedX=${this.motorStepForm.value.speedMotorX}&stepY=${this.motorStepForm.value.stepMotorY}&speedY=${this.motorStepForm.value.speedMotorY}&deltaSelect=${this.motorStepForm.value.deltaSelect}&delta=${this.motorStepForm.value.delta}/`).then(respose => {
       this.loadingService.closeLoading();
       this.bluetoothSerial.disconnect();
     }, error => {

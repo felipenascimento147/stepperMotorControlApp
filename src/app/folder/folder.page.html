@@ -27,6 +27,18 @@
         <ion-label class="formLabelStyle">Velocidade do motor Y [mm/s]:</ion-label>
         <ion-input type="number" formControlName="speedMotorY" (ionFocus)="clearInput('speedMotorY')"></ion-input>
       </ion-item>
+      <ion-item>
+        <ion-label>Variação do passo:</ion-label>
+        <ion-select okText="Ok" cancelText="Cancelar" formControlName="deltaSelect">
+          <ion-select-option value="deltaX">ΔX</ion-select-option>
+          <ion-select-option value="deltaY">ΔY</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label class="formLabelStyle" *ngIf="motorStepForm.value.deltaSelect == 'deltaX'"> ΔX [mm]:</ion-label>
+        <ion-label class="formLabelStyle" *ngIf="motorStepForm.value.deltaSelect == 'deltaY'"> ΔY [mm]:</ion-label>
+        <ion-input type="number" formControlName="delta" (ionFocus)="clearInput('delta')"></ion-input>
+      </ion-item>
       <div class="redirectButtons">
         <button (click)="confirmMoviment()"> Confirmar </button>
       </div>
