@@ -11,7 +11,7 @@
   <div>
     <form [formGroup]="motorStepForm">
       <ion-item>
-        <ion-label class="formLabelStyle">Posição do motor X [mm]:</ion-label>
+        <ion-label class="formLabelStyle">Deslocamento total do motor X [mm]:</ion-label>
         <ion-input inputmode="numeric" clear-on-edit formControlName="stepMotorX" (ionFocus)="clearInput('stepMotorX')">
         </ion-input>
       </ion-item>
@@ -20,7 +20,7 @@
         <ion-input type="number" formControlName="speedMotorX" (ionFocus)="clearInput('speedMotorX')"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label class="formLabelStyle">Posição do motor Y [mm]:</ion-label>
+        <ion-label class="formLabelStyle">Deslocamento total do motor Y [mm]:</ion-label>
         <ion-input inputmode="numeric" formControlName="stepMotorY" (ionFocus)="clearInput('stepMotorY')"></ion-input>
       </ion-item>
       <ion-item>
@@ -28,15 +28,14 @@
         <ion-input type="number" formControlName="speedMotorY" (ionFocus)="clearInput('speedMotorY')"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label>Variação do passo:</ion-label>
+        <ion-label>Eixo de deslocamento:</ion-label>
         <ion-select okText="Ok" cancelText="Cancelar" formControlName="deltaSelect">
           <ion-select-option value="deltaX">ΔX</ion-select-option>
           <ion-select-option value="deltaY">ΔY</ion-select-option>
         </ion-select>
       </ion-item>
       <ion-item>
-        <ion-label class="formLabelStyle" *ngIf="motorStepForm.value.deltaSelect == 'deltaX'"> ΔX [mm]:</ion-label>
-        <ion-label class="formLabelStyle" *ngIf="motorStepForm.value.deltaSelect == 'deltaY'"> ΔY [mm]:</ion-label>
+        <ion-label class="formLabelStyle"> Passo [mm]:</ion-label>
         <ion-input type="number" formControlName="delta" (ionFocus)="clearInput('delta')"></ion-input>
       </ion-item>
       <div class="redirectButtons">
@@ -65,12 +64,12 @@
 <ion-content [fullscreen]="true" *ngIf="folder == 'Sobre'">
   <div>
     <ion-item>
-      <p class="formLabelStyle">Aplicativo desenvolvido para realizar o controle dos motores de passo do sistema de
-        plasma atmosférico do Laboratório de Filmes Finos e Processo a Plasma da UFTM. Para utilizar o aplicativo,
-        primeiramente você deve ligar o Bluetooth de seu celular e conectar com o dispositivo HC-05: 00:21:13:02:2E:B5.
-        A senha para a conectar é 1234. Em seguida, vá para a página Home do meu lateral, digite as posições e
-        velocidades desejadas e pressione o botão confirmar. Espere o Arduino executar totalmente o comando para
-        movimentar os motores para depois enviar o novo comando.
+      <p class="formLabelStyle">Aplicativo desenvolvido para realizar a automação e o controle dos motores de passo do
+        porta-amostra do equipamento de plasma atmosférico do Laboratório de Filmes Finos e Processo a Plasma da UFTM.
+        Para utilizar o aplicativo, primeiramente você deve ligar o Bluetooth de seu celular e conectar com o
+        dispositivo HC-05: 00:21:13:02:2E:B5. A senha para a conectar é 1234. Em seguida, vá para a página Home do meu
+        lateral, digite os deslocamentos e velocidades desejadas e pressione o botão confirmar. Espere o Arduino
+        executar totalmente o comando para movimentar os motores para depois enviar o novo comando.
       </p>
     </ion-item>
   </div>

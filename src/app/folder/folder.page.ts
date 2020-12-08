@@ -96,8 +96,8 @@ export class FolderPage implements OnInit {
       return await this.alertService.okAlert("Validação", "A velocidade do motor X deve estar entre 0.3 mm/s e 3 mm/s.");
     }
 
-    if (this.motorStepForm.value.stepMotorY < -300 || this.motorStepForm.value.stepMotorY > 300) {
-      return await this.alertService.okAlert("Validação", "O posicinamento do motor Y deve estar entre -300 mm e 300 mm.");
+    if (this.motorStepForm.value.stepMotorY < -30 || this.motorStepForm.value.stepMotorY > 30) {
+      return await this.alertService.okAlert("Validação", "O posicinamento do motor Y deve estar entre -30 mm e 30 mm.");
     }
 
     if (this.motorStepForm.value.speedMotorY != 0 && (this.motorStepForm.value.speedMotorY < 0.5 || this.motorStepForm.value.speedMotorY > 9)) {
