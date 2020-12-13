@@ -73,7 +73,7 @@ export class FolderPage implements OnInit {
     this.motorStepForm.value.stepMotorY = Number(this.motorStepForm.value.stepMotorY);
 
     if (this.motorStepForm.value.stepMotorX == 0 && this.motorStepForm.value.speedMotorX != 0) {
-      return await this.alertService.okAlert("Erro", "A posição do motor X deve ser diferente de zero.");
+      return await this.alertService.okAlert("Erro", "O deslocamento do motor X deve ser diferente de zero.");
     }
 
     if (this.motorStepForm.value.stepMotorX != 0 && this.motorStepForm.value.speedMotorX == 0) {
@@ -81,7 +81,7 @@ export class FolderPage implements OnInit {
     }
 
     if (this.motorStepForm.value.stepMotorY == 0 && this.motorStepForm.value.speedMotorY != 0) {
-      return await this.alertService.okAlert("Erro", "A posição do motor Y deve ser diferente de zero.");
+      return await this.alertService.okAlert("Erro", "O deslocamento do motor Y deve ser diferente de zero.");
     }
 
     if (this.motorStepForm.value.stepMotorY != 0 && this.motorStepForm.value.speedMotorY == 0) {
@@ -89,7 +89,7 @@ export class FolderPage implements OnInit {
     }
 
     if (this.motorStepForm.value.stepMotorX < -30 || this.motorStepForm.value.stepMotorX > 30) {
-      return await this.alertService.okAlert("Validação", "O posicinamento do motor X deve estar entre -30 mm e 30 mm.");
+      return await this.alertService.okAlert("Validação", "O deslocamento do motor X deve estar entre -30 mm e 30 mm.");
     }
 
     if (this.motorStepForm.value.speedMotorX != 0 && (this.motorStepForm.value.speedMotorX < 0.3 || this.motorStepForm.value.speedMotorX > 3)) {
@@ -97,19 +97,19 @@ export class FolderPage implements OnInit {
     }
 
     if (this.motorStepForm.value.stepMotorY < -30 || this.motorStepForm.value.stepMotorY > 30) {
-      return await this.alertService.okAlert("Validação", "O posicinamento do motor Y deve estar entre -30 mm e 30 mm.");
+      return await this.alertService.okAlert("Validação", "O deslocamento do motor Y deve estar entre -30 mm e 30 mm.");
     }
 
-    if (this.motorStepForm.value.speedMotorY != 0 && (this.motorStepForm.value.speedMotorY < 0.5 || this.motorStepForm.value.speedMotorY > 9)) {
-      return await this.alertService.okAlert("Validação", "A velocidade do motor Y deve estar entre 0.5 mm/s e 9 mm/s.");
+    if (this.motorStepForm.value.speedMotorY != 0 && (this.motorStepForm.value.speedMotorY < 0.1 || this.motorStepForm.value.speedMotorY > 0.7)) {
+      return await this.alertService.okAlert("Validação", "A velocidade do motor Y deve estar entre 0.1 mm/s e 0.7 mm/s.");
     }
 
     if (this.motorStepForm.value.deltaSelect == "deltaX" && (this.motorStepForm.value.delta == 0 || this.motorStepForm.value.delta > Math.abs(this.motorStepForm.value.stepMotorX) || Math.abs(this.motorStepForm.value.stepMotorX) % this.motorStepForm.value.delta > 0)) {
-      return await this.alertService.okAlert("Validação", "ΔX deve ser maior que zero, menor que a posição X e divisível pela posição X.");
+      return await this.alertService.okAlert("Validação", "ΔX deve ser maior que zero, menor ou igual ao deslocamento X e divisível pelo deslocamento X.");
     }
 
     if (this.motorStepForm.value.deltaSelect == "deltaY" && (this.motorStepForm.value.delta == 0 || this.motorStepForm.value.delta > Math.abs(this.motorStepForm.value.stepMotorY) || Math.abs(this.motorStepForm.value.stepMotorY) % this.motorStepForm.value.delta > 0)) {
-      return await this.alertService.okAlert("Validação", "ΔY deve ser maior que zero, menor que a posição Y e divisível pela posição Y.");
+      return await this.alertService.okAlert("Validação", "ΔY deve ser maior que zero, menor ou igual ao deslocamento Y e divisível pelo deslocamento Y.");
     }
 
     this.formOk = true;
